@@ -7,7 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#E65100">
 <title>Groundwork</title>
-<link rel="manifest" href="data:application/json;base64,e30=">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0D0D0D;--surface:#161616;--surface2:#1E1E1E;--surface3:#252525;--orange:#E65100;--orange-light:#FF8F00;--orange-glow:rgba(230,81,0,.25);--gold:#FFD55A;--green:#4CAF50;--green-dark:#2E7D32;--red:#E53935;--red-dark:#B71C1C;--teal:#4DB6AC;--text:rgba(255,255,255,.87);--text2:rgba(255,255,255,.65);--text3:rgba(255,255,255,.45);--font-head:'Playfair Display',serif;--font-body:'Crimson Pro',serif;--radius:12px;--radius-sm:8px}
@@ -1304,53 +1306,9 @@ function showCelebration(stadiumId){
   drawConfetti();
 }
 
-/* ===== PWA SETUP ===== */
-function setupPWA(){
-  try{
-    const c=document.createElement('canvas');c.width=192;c.height=192;
-    const x=c.getContext('2d');
-    // Orange background
-    x.fillStyle='#E65100';
-    x.beginPath();x.roundRect(0,0,192,192,32);x.fill();
-    // Stadium icon (simple)
-    x.strokeStyle='#FFF';x.lineWidth=4;x.lineCap='round';
-    // Stadium outline
-    x.beginPath();
-    x.ellipse(96,100,60,40,0,0,Math.PI*2);
-    x.stroke();
-    // Pitch
-    x.fillStyle='#2E7D32';
-    x.beginPath();
-    x.ellipse(96,100,40,24,0,0,Math.PI*2);
-    x.fill();
-    // Lines on pitch
-    x.strokeStyle='rgba(255,255,255,.4)';x.lineWidth=1;
-    x.beginPath();x.moveTo(96,76);x.lineTo(96,124);x.stroke();
-    x.beginPath();x.arc(96,100,10,0,Math.PI*2);x.stroke();
-    // Bank text
-    x.fillStyle='#FFF';x.font='bold 28px sans-serif';x.textAlign='center';
-    x.font='bold 18px sans-serif';x.fillText('GROUND',96,150);x.fillText('WORK',96,170);
-
-    const iconUrl=c.toDataURL('image/png');
-    const manifest={
-      name:'Groundwork',short_name:'Groundwork',start_url:'.',display:'standalone',
-      background_color:'#0D0D0D',theme_color:'#E65100',
-      icons:[{src:iconUrl,sizes:'192x192',type:'image/png'}]
-    };
-    const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
-    document.querySelector('link[rel="manifest"]').href=URL.createObjectURL(blob);
-
-    // Apple touch icon
-    const link=document.createElement('link');
-    link.rel='apple-touch-icon';link.href=iconUrl;
-    document.head.appendChild(link);
-  }catch(e){}
-}
-
 /* ===== INIT ===== */
 function init(){
   loadData();
-  setupPWA();
   renderStadiumTab();
   renderLogTab();
 
